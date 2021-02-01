@@ -66,5 +66,14 @@ public class PlayerControler : MonoBehaviour
             }
             other.gameObject.transform.position=new Vector4(0,1,0);
         }
+        
+        Vector3 dir = Vector3.zero;
+        dir.z = Input.acceleration.y;
+        dir.x = Input.acceleration.x;
+        if (dir.sqrMagnitude > 1)
+            dir.Normalize();
+
+        dir *= Time.deltaTime;
+        transform.Translate(dir * speed);
     }
 }
