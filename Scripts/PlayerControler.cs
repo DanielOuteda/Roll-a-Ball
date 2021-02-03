@@ -30,6 +30,7 @@ public class PlayerControler : MonoBehaviour
 
         movementX = movementVector.x;
         movementY = movementVector.y;
+        
     }
 
     void SetCountText()
@@ -46,6 +47,16 @@ public class PlayerControler : MonoBehaviour
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
 
         rb.AddForce(movement * speed);
+
+        Debug.Log("Estoy en el acelerometro");
+            Vector3 dir = Vector3.zero;
+            dir.x = -Input.acceleration.y;
+            dir.z = Input.acceleration.x;
+            if (dir.sqrMagnitude > 1)
+                dir.Normalize();
+
+            dir *= Time.deltaTime;
+            transform.Translate(dir * speed);
     }
 
     private void OnTriggerEnter(Collider other) 
@@ -66,14 +77,5 @@ public class PlayerControler : MonoBehaviour
             }
             other.gameObject.transform.position=new Vector4(0,1,0);
         }
-        
-        Vector3 dir = Vector3.zero;
-        dir.z = Input.acceleration.y;
-        dir.x = Input.acceleration.x;
-        if (dir.sqrMagnitude > 1)
-            dir.Normalize();
-
-        dir *= Time.deltaTime;
-        transform.Translate(dir * speed);
     }
 }
